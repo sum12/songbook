@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title{% block title %}>Book{% endblock %}</title>
+        <!-- inject:css -->
+        <!-- endinject -->
+
+        <!-- bower:css -->
+        <link rel="stylesheet" href="{% static "book/bower_components/video.js/dist/video-js/video-js.css" %}" />
+        <!-- endbower -->
+</head>
+<body>
+<div id="main_content"> {% block main_div %} {% endblock %}</div>
+ 
+        <!-- bower:js -->
+        <script src="{% static "book/bower_components/video.js/dist/video-js/video.js" %}" type="text/javascript" charset="utf-8"></script>
+        <!-- endbower -->
+
+        <!-- inject:js -->
+        <!-- endinject -->
+</body>
+</html>

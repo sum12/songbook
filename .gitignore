@@ -1,4 +1,5 @@
 *.pyc
 bower_components/
+node_modules/
 *.mp4
 *.webm

@@ -1,14 +1,14 @@
 from django.shortcuts import render
-from django.views import TemplateView
+from django.views.generic.base import TemplateView
 
 from book import models
 
 class SongPlayer(TemplateView):
-    template_name = 'player.html'
+    template_name = 'book/player.html'
 
     def get_context_data(self, **kwargs):
         context = super(SongPlayer, self).get_context_data(**kwargs)
         context.update({
-            'songs' : models.Songs.objects.all()
+            'songs' : models.Song.objects.all()
             })
         return context
