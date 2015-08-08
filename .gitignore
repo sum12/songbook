@@ -1,2 +1,4 @@
 *.pyc
-static/
+bower_components/
+*.mp4
+*.webm

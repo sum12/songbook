@@ -1,0 +1,16 @@
+{
+  "name": "book",
+  "version": "0.0.0",
+  "homepage": "https://github.com/sum12/songbook",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "video.js": "~4.12.12"
+  }
+}
