@@ -1,0 +1,6 @@
+{% extends 'book/base.html' %}
+
+{% for song in songs %}
+<video id="player" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" data-setup='{}'>
+    <source src="{{ song.path }}" type="video/{{ song.type | default="mp4"}}">
+</video>
