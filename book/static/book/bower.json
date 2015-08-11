@@ -12,5 +12,9 @@
   ],
   "dependencies": {
     "video.js": "~4.12.12"
+  },
+  "devDependencies": {
+    "bootstrap": "3.3.4",
+    "jquery": "~2.1.4"
   }
 }

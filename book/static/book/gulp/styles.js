@@ -15,6 +15,7 @@ gulp.task('styles', ['sass'] ,function () {
   };
 
   var injectFiles = gulp.src([
+    'bower_components/**/*.less',
     paths.src + '/css/**/*.less',
     '!' + paths.src + '/css/index.less',
   ], { read: false });
@@ -29,14 +30,11 @@ gulp.task('styles', ['sass'] ,function () {
     addRootSlash: false
   };
 
-  var indexFilter = $.filter('index.less');
 
   return gulp.src([
     paths.src + '/css/index.less',
   ])
-    .pipe(indexFilter)
     .pipe($.inject(injectFiles, injectOptions))
-    .pipe(indexFilter.restore())
     .pipe($.less())
 
   .pipe($.autoprefixer())

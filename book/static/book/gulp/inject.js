@@ -39,7 +39,6 @@ gulp.task('inject', ['styles'], function () {
     devDependencies: true,
     ignorePath:'../../static/',
     directory: 'bower_components',
-    exclude: [/bootstrap\.css/, /bootstrap\.css/, /foundation\.css/],
     relative:false,
     fileTypes:{
         html:{
