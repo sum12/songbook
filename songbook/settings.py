@@ -82,7 +82,6 @@ DATABASES = {
     }
 }
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -96,6 +95,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+STATICFILES_DIRS = [
+        '/data'
+        ]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/

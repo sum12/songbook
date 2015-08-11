@@ -9,13 +9,16 @@
 
         <!-- bower:css -->
         <link rel="stylesheet" href="{% static "book/bower_components/video.js/dist/video-js/video-js.css" %}" />
+        <link rel="stylesheet" href="{% static "book/bower_components/bootstrap/dist/css/bootstrap.css" %}" />
         <!-- endbower -->
 </head>
 <body>
-<div id="main_content"> {% block main_div %} {% endblock %}</div>
+<div class='container' id="main_content"> {% block main_div %} {% endblock %}</div>
  
         <!-- bower:js -->
         <script src="{% static "book/bower_components/video.js/dist/video-js/video.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "book/bower_components/jquery/dist/jquery.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "book/bower_components/bootstrap/dist/js/bootstrap.js" %}" type="text/javascript" charset="utf-8"></script>
         <!-- endbower -->
 
         <!-- inject:js -->

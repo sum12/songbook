@@ -1,11 +1,35 @@
-{% extends 'book/base.html' %}
+{% extends "book/base.html" %}
 
+{% load staticfiles %}
 
 {% block main_div %}
 {% for song in songs %}
-<video id="player" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" data-setup='{}'>
-    <source src="{{ song.path }}" type="video/{{ song.type | default:"mp4"}}">
-</video>
+<div id="song_{{song.id}}" class="row">
+    <div class="col-md-7 border">
+        <video id="player" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" data-setup="{}">
+            <source src="{% static song.path  %}" type="video/{{ song.type | default:"mp4"}}">
+        </video> 
+        
+    </div>
+        {% for snip in song.snippet_set.all %}
+        <div class="col-md-2">
+            <div class="input-group">
+                <span class="input-group-addon" id="start_aria">Start</span>
+                <input type="text" class="form-control" placeholder="{{ snip.start }}" aria-describedby="start_aria"> 
+             </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="{{ snip.end }}" aria-describedby="end_aria"> 
+                <span class="input-group-addon" id="end_aria">End</span>
+            </div>
+        </div>
+        {% empty %}
+        <div id="no_snip" >
+            No Snippets saved for practice
+        </div>
+        {% endfor %}
+</div>
 {% empty %}
  THe Song list is empty
 {% endfor %}
