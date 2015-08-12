@@ -3,14 +3,17 @@
 {% load staticfiles %}
 
 {% block main_div %}
+<div id="song_list" class="panel panel-default">
 {% for song in songs %}
-<div id="song_{{song.id}}" class="row">
-    <div class="col-md-7 border">
-        <video id="player" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" data-setup="{}">
-            <source src="{% static song.path  %}" type="video/{{ song.type | default:"mp4"}}">
-        </video> 
-        
+    <div id="song-head_{{ song.id }}" class="panel-heading">
+        <h4 class="panel-title"> <a  data-toggle="collapse" data-target="#song_body_{{ song.id }}" href="#collapseOne"> {{ song.name }} </a> </h4>
     </div>
+    <div id="song_body_{{song.id}}" class="row panel-collpase panel-body collapse in">
+        <div class="col-md-7 border">
+            <video id="player" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" data-setup="{}">
+                <source src="{% static song.path  %}" type="video/{{ song.type }}">
+            </video> 
+        </div>
         {% for snip in song.snippet_set.all %}
         <div class="col-md-2">
             <div class="input-group">
@@ -29,8 +32,9 @@
             No Snippets saved for practice
         </div>
         {% endfor %}
-</div>
+    </div>
 {% empty %}
  THe Song list is empty
 {% endfor %}
 {% endblock %}
+</div>
