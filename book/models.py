@@ -4,6 +4,7 @@ from django.db import models
 class Song(models.Model):
     name = models.CharField(max_length=255,null=False, default='no_name')
     path = models.CharField(max_length=255,null=False, default='no_path')
+    type = models.CharField(max_length=10,null=False, default='mp4')
 
 
 class Snippet(models.Model):
