@@ -3,7 +3,7 @@
 {% load staticfiles %}
 
 {% block main_div %}
-<div id="song_list" class="panel panel-default">
+<div id="song_list" class="col-md-8 panel panel-default">
 {% for song in songs %}
     <div id="song-head_{{ song.id }}" class="panel-heading">
         <h4 class="panel-title"> <a  data-toggle="collapse" data-target="#song_body_{{ song.id }}" href="#"> {{ song.name }} </a> </h4>
@@ -42,5 +42,39 @@
 {% empty %}
  THe Song list is empty
 {% endfor %}
-{% endblock %}
 </div>
+<div id="song-list-ang" ng-controller="songlist" class="col-md-4 panel-group">
+    <div ng-repeat="song in list" class="panel panel-default">
+        <div id="song_head_[[ song.id ]]" class="panel-heading">
+            <h4 class="panel-title">
+                <a ng-click="buttonClicked([[ song.id ]])" data-toggle="collapse" data-parent="#song-list-ang" href="#">[[ song.loaded ]] [[ song.name ]] </a>
+            </h4>
+        </div>   
+        <div id="song_snippets" ng-repeat="snip in snippets " class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="col-md-2">
+                    <label class="switch">
+                        <input id="check_[[ snip.id ]]" ng-model="snip.enabled" type="checkbox" class="switch"> 
+                      <span></span>  
+                    </label>
+                </div>
+                <div class="col-md-5">
+                    <div class="input-group" >
+                        <span class="input-group-addon" id="start_aria">Start</span>
+                        <input type="text" class="form-control" placeholder="[[ snip.start ]]" aria-describedby="start_aria"> 
+                     </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="[[ snip.end ]]" aria-describedby="end_aria"> 
+                        <span class="input-group-addon" id="end_aria">End</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="song_snippets_empty" class="panel-body" ng-if="snippets.length === 0">No Snippets</div>
+    </div>
+
+</div>
+{% endblock %}
+
