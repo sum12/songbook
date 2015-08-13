@@ -6,17 +6,23 @@
 <div id="song_list" class="panel panel-default">
 {% for song in songs %}
     <div id="song-head_{{ song.id }}" class="panel-heading">
-        <h4 class="panel-title"> <a  data-toggle="collapse" data-target="#song_body_{{ song.id }}" href="#collapseOne"> {{ song.name }} </a> </h4>
+        <h4 class="panel-title"> <a  data-toggle="collapse" data-target="#song_body_{{ song.id }}" href="#"> {{ song.name }} </a> </h4>
     </div>
-    <div id="song_body_{{song.id}}" class="row panel-collpase panel-body collapse in">
+    <div id="song_body_{{song.id}}" class="row panel-collpase panel-body collapse">
         <div class="col-md-7 border">
-            <video id="player" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" data-setup="{}">
+            <video id="player" class="video-js vjs-default-skin" controls preload="auto" width="640" heigth="264" data-setup="{}">
                 <source src="{% static song.path  %}" type="video/{{ song.type }}">
             </video> 
         </div>
         {% for snip in song.snippet_set.all %}
+        <div class="col-md-1">
+            <label class="switch">
+                <input id="input_{{ snip.id }}" type="checkbox" class="switch"> 
+              <span></span>  
+            </label>
+        </div>
         <div class="col-md-2">
-            <div class="input-group">
+            <div class="input-group" >
                 <span class="input-group-addon" id="start_aria">Start</span>
                 <input type="text" class="form-control" placeholder="{{ snip.start }}" aria-describedby="start_aria"> 
              </div>

@@ -22,7 +22,7 @@ gulp.task('inject', ['styles'], function () {
 
   var injectOptions = {
     addRootSlash: false,
-    addPrefix:'board',
+    addPrefix:'book',
     transform: function (filepath) {
                 if (filepath.slice(-3) === '.js') {
                     return "<script src=\"{% static \""+ filepath +"\" %}\" type=\"text/javascript\" charset=\"utf-8\"></script>";
