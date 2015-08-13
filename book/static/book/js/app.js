@@ -7,15 +7,17 @@ angular.module('player',[])
     $scope.state = 'gettingdata'
     $http.get('/book/songs').success(function(response){
         $scope.list = {};
+        $scope.snippets = {} 
         angular.forEach(response,function(song){
             $scope.list[song.id]=song;
             $scope.list[song.id].loaded=0;
-        })
+        });
+        $scope.snippets = $scope.list[1].snippets;
     }).error(function(error){
         $scope.state = 'errored in gettting data';
         console.log('Errored!!!!\n'+error);
     });
-    $scope.buttonClicked= function(song_id){
-        $scope.list[song_id].loaded+=1;
+    $scope.loadSong = function(song_id){
+        $scope.snippets = $scope.list[song_id].snippets;
     }
 })

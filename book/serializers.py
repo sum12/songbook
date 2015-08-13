@@ -8,7 +8,7 @@ class SongSerializer(ModelSerializer):
     snippets = SerializerMethodField()
 
     def get_snippets(self, obj):
-        return obj.snippet_set.all().values()
+        return dict((snip['id'], snip) for snip in obj.snippet_set.all().values())
 
     def get_snippet_links(self, obj):
         return dict([(snip.id, reverse('snippet-detail',kwargs={'pk':snip.id})) for snip in obj.snippet_set.all()])
