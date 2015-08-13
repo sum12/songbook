@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="player">
 <head>
     <meta charset="UTF-8">
     <title{% block title %}>Book{% endblock %}</title>
@@ -20,9 +20,11 @@
         <script src="{% static "book/bower_components/video.js/dist/video-js/video.js" %}" type="text/javascript" charset="utf-8"></script>
         <script src="{% static "book/bower_components/jquery/dist/jquery.js" %}" type="text/javascript" charset="utf-8"></script>
         <script src="{% static "book/bower_components/bootstrap/dist/js/bootstrap.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "book/bower_components/angular/angular.js" %}" type="text/javascript" charset="utf-8"></script>
         <!-- endbower -->
 
         <!-- inject:js -->
+        <script src="{% static "book/js/app.js" %}" type="text/javascript" charset="utf-8"></script>
         <!-- endinject -->
 </body>
 </html>
