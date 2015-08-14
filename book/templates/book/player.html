@@ -3,45 +3,14 @@
 {% load staticfiles %}
 
 {% block main_div %}
-<div id="song_list" class="col-md-6 panel panel-default">
-{% for song in songs %}
-    <div id="song-head_{{ song.id }}" class="panel-heading">
+<div id="player" class="col-md-6 panel panel-default">
+    <div  class="panel-heading">
         <h4 class="panel-title"> <a  data-toggle="collapse" data-target="#song_body_{{ song.id }}" href="#"> {{ song.name }} </a> </h4>
     </div>
-    <div id="song_body_{{song.id}}" class="row panel-collpase panel-body collapse">
-        <div class="col-md-7 border">
-            <video id="player" class="video-js vjs-default-skin" controls preload="auto" width="640" heigth="264" data-setup="{}">
-                <source src="{% static song.path  %}" type="video/{{ song.type }}">
-            </video> 
-        </div>
-        {% for snip in song.snippet_set.all %}
-        <div class="col-md-1">
-            <label class="switch">
-                <input id="input_{{ snip.id }}" type="checkbox" class="switch"> 
-              <span></span>  
-            </label>
-        </div>
-        <div class="col-md-2">
-            <div class="input-group" >
-                <span class="input-group-addon" id="start_aria">Start</span>
-                <input type="text" class="form-control" placeholder="{{ snip.start }}" aria-describedby="start_aria"> 
-             </div>
-        </div>
-        <div class="col-md-2">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="{{ snip.end }}" aria-describedby="end_aria"> 
-                <span class="input-group-addon" id="end_aria">End</span>
-            </div>
-        </div>
-        {% empty %}
-        <div id="no_snip" >
-            No Snippets saved for practice
-        </div>
-        {% endfor %}
+    <div  class="row panel-collpase panel-body ">
+        <video id="player" class="video-js vjs-default-skin" controls preload="auto" width="640" heigth="264" data-setup="{}">
+        </video> 
     </div>
-{% empty %}
- THe Song list is empty
-{% endfor %}
 </div>
 <div ng-controller="songlist">
     <div id="song-list-ang" class="col-md-2 list-group">
@@ -49,26 +18,32 @@
             <a ng-click="loadSong([[ song.id ]])" class="list-group-item" href="#">[[ song.name ]]</a>
         </div>
     </div>
-    <div id="song_snippets" ng-repeat="snip in snippets" class="col-md-4 panel panel-default">
-        <div class="panel-body">
-            <div class="col-md-2">
-                <label class="switch">
-                    <input id="check_[[ snip.id ]]" ng-model="snip.enabled" type="checkbox" class="switch"> 
-                  <span></span>  
-                </label>
-            </div>
-            <div class="col-md-5">
-                <div class="input-group" >
-                    <span class="input-group-addon" id="start_aria">Start</span>
-                    <input type="text" class="form-control" placeholder="[[ snip.start ]]" aria-describedby="start_aria"> 
+    <div class="col-md-4">
+        <div id="song_snippets" class=" panel-group">
+        <div ng-repeat="snip in snippets" class="panel panel-default">
+            <!-- <div class="panel-heading">
+                <h4 class="panel-title">
+                      <button data-toggle="collapse" data-parent="#song_snippets" data-target="#snip_[[ snip.id ]]">[[ $index ]] [[ snip.id ]]</button>
+              </h4>
+            </div> -->
+            <div id="snip_[[ snip.id ]]" class="panel-body collapse" ng-class=" editing == snip.editing? 'in':''">
+                <div class="col-md-4">
+                    <label class="switch">
+                        <input id="check_[[ snip.id ]]" ng-model="snip.enabled" type="checkbox" class="switch"> 
+                      <span></span>  
+                    </label>
+                </div>
+                <div class="col-md-8 input-group" >
+                    <input type="text" class=" form-control" placeholder="[[ snip.start ]]" > 
+                    <span class="input-group-btn" style="width:0px;"></span>
+                    <input type="text" class=" form-control" placeholder="[[ snip.end ]]" > 
+                    <span class="input-group-btn">
+                        <button  ng-click="editSnip([[ snip.id ]])" class="btn btn-default"> Edit </button>
+                        <button class="btn btn-default"> Delete </button>
+                    </span>
                  </div>
             </div>
-            <div class="col-md-5">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="[[ snip.end ]]" aria-describedby="end_aria"> 
-                    <span class="input-group-addon" id="end_aria">End</span>
-                </div>
-            </div>
+        </div>
         </div>
     </div>
 </div>
