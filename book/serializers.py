@@ -15,7 +15,7 @@ class SongSerializer(ModelSerializer):
 
     class Meta:
         model = models.Song
-        fields = ('id', 'name', 'type', 'snippet_links', 'snippets')
+        fields = ('id', 'name', 'type', 'snippet_links', 'snippets','path')
 
 
 class SnippetSerializer(ModelSerializer):
