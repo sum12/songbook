@@ -3,13 +3,11 @@
 {% load staticfiles %}
 
 {% block main_div %}
-<div id="player" class="col-md-6 panel panel-default">
-    <div  class="panel-heading">
-        <h4 class="panel-title"> <a  data-toggle="collapse" data-target="#song_body_{{ song.id }}" href="#"> {{ song.name }} </a> </h4>
-    </div>
-    <div  class="row panel-collpase panel-body ">
-        <video id="player" class="video-js vjs-default-skin" controls preload="auto" width="640" heigth="264" data-setup="{}">
+<div id="player" class="col-md-6">
+    <div  class="row">
+        <video id="playerbox" class="video-js vjs-default-skin" >
         </video> 
+
     </div>
 </div>
 <div ng-controller="songlist">
@@ -29,9 +27,13 @@
                     </label>
                 </div>
                 <div class="col-md-8 input-group" >
-                    <input type="text" class=" form-control" placeholder="[[ snip.start ]]" > 
-                    <span class="input-group-btn" style="width:0px;"></span>
-                    <input type="text" class=" form-control" placeholder="[[ snip.end ]]" > 
+                    <div >
+                        <input type="text" class=" form-control" ng-if="!snip.editing" ng-model="snip.start">  </input>
+                        <input type="text" class="btn btn-default form-control" ng-if="snip.editing" ng-model="currentStart" ></input>
+                        <span class="input-group-btn" style="width:0px;"></span>
+                        <input type="text" class="btn btn-default form-control" ng-if="snip.editing" ng-model="currentEnd" >  </input>    
+                        <input type="text" class=" form-control" ng-if="!snip.editing" ng-model="snip.end" >  </input>
+                    </div>
                     <span class="input-group-btn">
                         <button ng-click="editSnip([[ snip.id ]])" class="btn btn-default"> [[ state[0] ]] </button>
                         <button ng-click="saveSnip([[ snip.id ]])" class="btn btn-default"> [[ state[1] ]] </button>
@@ -39,6 +41,14 @@
                  </div>
             </div>
         </div>
+        <div class="panel panel-default">
+            <div id="new_snip" class="panel-body collapse" ng-class=" editing ? 'in':''">
+                <div class="col-md-8 input-group" >
+                    <button type="button" class=" form-control" ng-click="currentStart = getCurrent()" >Start </button>
+                    <span class="input-group-btn" style="width:0px;"></span>
+                    <button type="button" class=" form-control" ng-click="currentEnd = getCurrent()"  > End</button> 
+                 </div>
+            </div>
         </div>
     </div>
 </div>
