@@ -43,6 +43,6 @@ angular.module('player',[])
         $scope.editSnip(snip_id);
     };
     $scope.getCurrent = function(){
-        return 99;
+        return $scope.player.currentTime();
     }
 })
