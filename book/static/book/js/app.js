@@ -10,7 +10,7 @@ angular.module('player',[])
         $scope.snippets = {} 
         $scope.state = ["Getting", "Getting"]
         angular.forEach(response,function(song){
-            $scope.state = [" Edit", "Cancel"];
+            $scope.state = ["Edit", "Cancel"];
             $scope.list[song.id]=song;
             angular.forEach($scope.list[song.id].snippets, function(snip){
                 snip.editing = false;
@@ -18,7 +18,7 @@ angular.module('player',[])
         });
         $scope.snippets = $scope.list[1].snippets;
         $scope.editing = false;
-        $scope.player = videojs('playerbox',{"preload":"auto", "controls":true, "autoplay":true});
+        $scope.player = videojs('playerbox',{"preload":"auto", "controls":true, "autoplay":false});
     }).error(function(error){
         console.log('Errored!!!!\n'+error);
     });
@@ -27,8 +27,27 @@ angular.module('player',[])
         $scope.editing = false;
         $scope.state = [" Edit", "Delete"];
         song=$scope.list[song_id];
-        console.log($scope.player.src({src:"/static/"+song.path, type:"video/"+song.type}));
-        $scope.player.play();
+        $scope.player.src({src:"/static/"+song.path, type:"video/"+song.type});
+        $scope.player.ready(function(){
+            $scope.player.on("timeupdate",function(){
+                var found = false,
+                ct = $scope.player.currentTime();
+                angular.forEach($scope.snippets, function(snip){
+                    if( !found && snip.active){
+                        if (snip.start <= ct && ct <= (1+snip.end)){
+                            found = true;
+                        }
+                        else if (snip.start > ct ){
+                            found = true; 
+                            $scope.player.currentTime(snip.start);
+                        }
+                    }
+                });
+                if (! found){
+                    $scope.player.currentTime(0);
+                }
+            });
+        });
     };
     $scope.editSnip = function(snip_id){
         angular.forEach($scope.snippets, function(snip){
@@ -44,5 +63,5 @@ angular.module('player',[])
     };
     $scope.getCurrent = function(){
         return $scope.player.currentTime();
-    }
+    };
 })
