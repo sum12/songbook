@@ -22,17 +22,17 @@
             <div id="snip_[[ snip.id ]]" class="panel-body collapse" ng-class=" editing == snip.editing? 'in':''">
                 <div class="col-md-4">
                     <label class="switch">
-                        <input id="check_[[ snip.id ]]" ng-model="snip.enabled" type="checkbox" class="switch"> 
+                        <input id="check_[[ snip.id ]]" ng-model="snip.active" type="checkbox" class="switch"> 
                       <span></span>  
                     </label>
                 </div>
                 <div class="col-md-8 input-group" >
                     <div >
-                        <input type="text" class=" form-control" ng-if="!snip.editing" ng-model="snip.start">  </input>
-                        <input type="text" class="btn btn-default form-control" ng-if="snip.editing" ng-model="currentStart" ></input>
+                        <input type="number" class=" form-control" ng-if="!snip.editing" ng-model="snip.start">  </input>
+                        <input type="number" class="btn btn-default form-control" ng-if="snip.editing" ng-model="currentStart" ></input>
                         <span class="input-group-btn" style="width:0px;"></span>
-                        <input type="text" class="btn btn-default form-control" ng-if="snip.editing" ng-model="currentEnd" >  </input>    
-                        <input type="text" class=" form-control" ng-if="!snip.editing" ng-model="snip.end" >  </input>
+                        <input type="number" class="btn btn-default form-control" ng-if="snip.editing" ng-model="currentEnd" >  </input>    
+                        <input type="number" class=" form-control" ng-if="!snip.editing" ng-model="snip.end" >  </input>
                     </div>
                     <span class="input-group-btn">
                         <button ng-click="editSnip([[ snip.id ]])" class="btn btn-default"> [[ state[0] ]] </button>
