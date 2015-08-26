@@ -1,29 +1,28 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField, PrimaryKeyRelatedField
 from rest_framework.reverse import reverse
 from book import models
 
+class SnippetSerializer(ModelSerializer):
+    song = PrimaryKeyRelatedField(queryset=models.Song.objects.all())
+
+#    def get_song_id (self, obj):
+#        return obj.song.id
+
+    class Meta:
+        model = models.Snippet
+        fields = ('id', 'start', 'end', 'song')
+
+
+
 class SongSerializer(ModelSerializer):
-
     snippet_links = SerializerMethodField()
-    snippets = SerializerMethodField()
-
-    def get_snippets(self, obj):
-        return dict((snip['id'], snip) for snip in obj.snippet_set.all().values())
+    snippet_set = SnippetSerializer(many=True)
 
     def get_snippet_links(self, obj):
         return dict([(snip.id, reverse('snippet-detail',kwargs={'pk':snip.id})) for snip in obj.snippet_set.all()])
 
     class Meta:
         model = models.Song
-        fields = ('id', 'name', 'type', 'snippet_links', 'snippets','path')
+        fields = ('id', 'name','snippet_set', 'type', 'snippet_links', 'path')
 
 
-class SnippetSerializer(ModelSerializer):
-    song_link = SerializerMethodField()
-
-    def get_song_link (self, obj):
-        return reverse("song-detail",kwargs={'pk':obj.song_id})
-
-    class Meta:
-        model = models.Snippet
-        fields = ('id', 'start', 'end', 'song_link')
