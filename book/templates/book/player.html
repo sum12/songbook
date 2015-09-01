@@ -3,12 +3,6 @@
 {% load staticfiles %}
 
 {% block main_div %}
-
-<div class="alert alert-success top-left" role="alert">
-    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    <strong>Well done!</strong> You successfully read this important alert message.
-</div>
-
 <div id="player" class="col-md-6">
     <div  class="row">
         <video id="playerbox" class="video-js vjs-default-skin" >
@@ -17,6 +11,7 @@
     </div>
 </div>
 <div ng-controller="songlist">
+
     <div id="song-list-ang" class="col-md-2 list-group">
         <div id="song_head_[[ song.id ]]" ng-repeat="song in list">
             <a ng-click="loadSong([[ song.id ]])" class="list-group-item" href="#">[[ song.name ]]</a>
@@ -41,8 +36,8 @@
                         <input type="number" class=" form-control" ng-if="!snip.editing" ng-model="snip.end" >  </input>
                     </span>
                     <span class="input-group-btn">
-                        <button ng-click="editSnip([[ snip.id ]])" class="btn btn-default"> [[ state[0] ]] </button>
-                        <button ng-click="saveSnip([[ snip.id ]])" class="btn btn-default"> [[ state[1] ]] </button>
+                        <button ng-click="editSnip([[ snip.id ]])" class="btn btn-default btn-warning"> [[ state[0] ]] </button>
+                        <button ng-click="saveSnip([[ snip.id ]])" ng-class=" !editing ? 'btn-danger':'btn-success'" class="btn btn-default"> [[ state[1] ]] </button>
                     </span>
                  </div>
             </div>
@@ -57,6 +52,7 @@
             </div>
         </div>
     </div>
+    <alert ng-repeat="alert in alerts" style="position: fixed; z-index: 9999; bottom: 20px; right: 20px; width: 300px;" dismiss-on-timeout=2000 close="closeAlert($index)"type="[[alert.type]]" >[[alert.msg]]</alert>
 </div>
 {% endblock %}
 

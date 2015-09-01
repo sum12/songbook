@@ -1,4 +1,4 @@
-angular.module('player',[])
+angular.module('player',["ui.bootstrap"])
 .config(function($interpolateProvider){
     $interpolateProvider.startSymbol('[[');
     $interpolateProvider.endSymbol(']]');
@@ -23,9 +23,14 @@ angular.module('player',[])
                 }
             };
     $scope.state = ["Edit", "Delete"];
+    $scope.alerts = [];
     $http.get('/book/songs/').success(function(response){
         $scope.list = {};
         $scope.snippets = {};
+        $scope.alerts.push({
+            "type":"success",
+            "msg":"Got the data!!"
+        });
         $scope.state = ["Getting", "Getting"]
         angular.forEach(response,function(song){
             $scope.state = ["Edit", "Delete"]
@@ -38,9 +43,9 @@ angular.module('player',[])
                 console.log(snip)
             });
         });
-        $scope.snippets = $scope.list[1].snippets;
         $scope.editing = false;
         $scope.player = videojs('playerbox',{"preload":"auto", "controls":true, "autoplay":false, "width":540, "height":420});
+        $scope.loadSong(1)
     }).error(function(error){
         console.log('Errored!!!!\n'+error);
     });
@@ -80,6 +85,10 @@ angular.module('player',[])
                 success(function(response){
                     $scope.snippets[response.id] = response;
                     $scope.snippets[response.id].editing = false;
+                    $scope.alerts.push({
+                        "type":"success",
+                        "msg": "OK"
+                    });
                 }).
                 error(function(err){
                     console.log(err);
@@ -90,11 +99,23 @@ angular.module('player',[])
         }
         else{
             $http.delete("/book/snippets/"+(parseInt(snip_id))).success(function(){
-                delete($scope.snippets[snip_id])
+                delete($scope.snippets[snip_id]);
+                $scope.alerts.push({
+                    "type":"success",
+                    "msg": "Deleted!!!!!"
+                });
+            }).
+            error(function(err){
+                $scope.alerts.push({
+                    "type":"danger",
+                    "msg": "Nope:"+err.detail
+                })
             })
         }
     };
-
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
+    };
     $scope.getCurrent = function(){
         return $scope.player.currentTime();
     };
