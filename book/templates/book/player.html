@@ -16,6 +16,9 @@
         <div id="song_head_[[ song.id ]]" ng-repeat="song in list">
             <a ng-click="loadSong([[ song.id ]])" class="list-group-item" href="#">[[ song.name ]]</a>
         </div>
+        <div ng-if="! list.length">
+            <h3> <div id="song_head_empty" class="disabled"> No Songs in list</div> </h3>
+        </div>
     </div>
     <div class="col-md-4">
         <div id="song_snippets" class=" panel-group">
