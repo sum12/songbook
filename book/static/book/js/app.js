@@ -20,7 +20,7 @@ angular.module('player',["ui.bootstrap"])
                         }
                     }
                 });
-                if (! found && $scop.snippets.length != 0 ){
+                if (! found && $scope.snippets.length != 1 ){
                     $scope.player.currentTime(0);
                 }
             };
