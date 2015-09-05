@@ -8,6 +8,8 @@ angular.module('player',["ui.bootstrap"])
                 var found = false,
                 ct = $scope.player.currentTime();
                 angular.forEach($scope.snippets, function(snip){
+                    if (snip.id === 'new')
+                       return; 
                     if( !found && snip.active){
                         if (snip.start <= ct && ct <= (1+snip.end)){
                             found = true;
@@ -18,7 +20,7 @@ angular.module('player',["ui.bootstrap"])
                         }
                     }
                 });
-                if (! found){
+                if (! found && $scop.snippets.length != 0 ){
                     $scope.player.currentTime(0);
                 }
             };
