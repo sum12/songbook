@@ -7,7 +7,7 @@ simple_router.register(r'songs',SongList)
 simple_router.register(r'snippets',SnippetList)
 urlpatterns =  patterns('',
             url(r'',include(simple_router.urls)) ,
-            url(r"^player", SongPlayer.as_view()),
+            url(r"^$", SongPlayer.as_view()),
             )
 
 
