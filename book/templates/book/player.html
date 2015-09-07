@@ -37,11 +37,11 @@
                     <span class="input-group-btn">
                         <button ng-click="editSnip([[ snip.id ]])" class="btn btn-default btn-warning"> [[ state[0] ]] </button>
                     </span>
-                        <input type="number" class="btn btn-default form-control" ng-if="snip.editing" ng-model="currentStart" ></input>
+                        <input type="number" class="btn btn-default form-control" ng-if="snip.editing" placeholder="[[ snip.start ]]" ng-model="currentStart" ></input>
                         <input type="number" class=" form-control" ng-if="!snip.editing"  ng-model="snip.start">  </input>
                         <span class="input-group-btn" style="width:0px;"></span>
                         <input type="number" class=" form-control" ng-if="!snip.editing" ng-model="snip.end" >  </input>
-                        <input type="number" class="btn btn-default form-control" ng-if="snip.editing" ng-model="currentEnd" >  </input>    
+                        <input type="number" class="btn btn-default form-control" ng-if="snip.editing" placeholder="[[ snip.end ]]" ng-model="currentEnd" ></input>    
                     <span class="input-group-btn">
                         <button ng-click="saveSnip([[ snip.id ]])" ng-class=" !editing ? 'btn-danger':'btn-success'" class="btn btn-default"> [[ state[1] ]] </button>
                     </span>
