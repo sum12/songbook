@@ -7,6 +7,12 @@ class Song(models.Model):
     type = models.CharField(max_length=10,null=False, default='mp4')
     comment = models.TextField(default='')
 
+    def __repr__(self):
+        return "<Song :%r>" % self.path
+
+    def __str__(self):
+        return "<Song :%r>" % self.name
+
 class Snippet(models.Model):
     song = models.ForeignKey(Song)
     start = models.PositiveIntegerField()

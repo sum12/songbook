@@ -39,10 +39,9 @@ angular.module('player',["ui.bootstrap"])
             song.snippets = {};
             song.snippets['new'] = {'id':'new', "start":0, "end":0, "song":song.id, "editing":false}
             $scope.list[song.id]=song;
-            angular.forEach($scope.list[song.id].snippet_set, function(snip){
+            angular.forEach(song.snippet_set, function(snip){
                 snip.editing = false;
                 $scope.list[song.id].snippets[snip.id] = snip;
-                console.log(snip)
             });
         });
         $scope.editing = false;
@@ -60,6 +59,7 @@ angular.module('player',["ui.bootstrap"])
         $scope.state = ["Edit", "Delete"];
         song=$scope.list[song_id];
         $scope.player.src({src:"/static/"+song.path, type:"video/"+song.type});
+        $scope.comment = song.comment;
         $scope.player.ready(function(){
             $scope.player.on("timeupdate",$scope.snip_traveller);
         });

@@ -8,19 +8,16 @@
         <div  class="row">
             <video id="playerbox" class="video-js vjs-default-skin" >
             </video> 
-            <div class="form-group">
-                <label for="songcomment"><h4>Song Comment</h4></label>
-                <textarea id="songcomment" class="form-control" row="5"></textarea>
-            </div>
         </div>
+        <label for="songcomment"><h4>Song Comment</h4></label>
+        <textarea id="songcomment" class="form-control" ng-model=comment row="5"></textarea>
     </div>
 
     <div id="song-list-ang" class="col-md-2 list-group">
+        <div class="form-group">
+        </div>
         <div id="song_head_[[ song.id ]]" ng-repeat="song in list">
             <a ng-click="loadSong([[ song.id ]])" class="list-group-item" href="#">[[ song.name ]]</a>
-        </div>
-        <div ng-if="! list.length">
-            <h3> <div id="song_head_empty" class="disabled"> No Songs in list</div> </h3>
         </div>
     </div>
     <div class="col-md-4">
@@ -37,11 +34,11 @@
                     <span class="input-group-btn">
                         <button ng-click="editSnip([[ snip.id ]])" class="btn btn-default btn-warning"> [[ state[0] ]] </button>
                     </span>
-                        <input type="number" class="btn btn-default form-control" ng-if="snip.editing" placeholder="[[ snip.start ]]" ng-model="currentStart" ></input>
-                        <input type="number" class=" form-control" ng-if="!snip.editing"  ng-model="snip.start">  </input>
+                        <input type="number" class="form-control" ng-if="snip.editing" placeholder="[[ snip.start ]]" ng-model="currentStart" ></input>
+                        <input type="number" class="form-control" ng-if="!snip.editing"  ng-model="snip.start">  </input>
                         <span class="input-group-btn" style="width:0px;"></span>
-                        <input type="number" class=" form-control" ng-if="!snip.editing" ng-model="snip.end" >  </input>
-                        <input type="number" class="btn btn-default form-control" ng-if="snip.editing" placeholder="[[ snip.end ]]" ng-model="currentEnd" ></input>    
+                        <input type="number" class="form-control" ng-if="!snip.editing" ng-model="snip.end" >  </input>
+                        <input type="number" class="form-control" ng-if="snip.editing" placeholder="[[ snip.end ]]" ng-model="currentEnd" ></input>    
                     <span class="input-group-btn">
                         <button ng-click="saveSnip([[ snip.id ]])" ng-class=" !editing ? 'btn-danger':'btn-success'" class="btn btn-default"> [[ state[1] ]] </button>
                     </span>
