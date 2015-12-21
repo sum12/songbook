@@ -3,27 +3,40 @@ angular.module('player',["ui.bootstrap"])
     $interpolateProvider.startSymbol('[[');
     $interpolateProvider.endSymbol(']]');
 })
-.controller('songlist',function($scope, $http){
+.controller('songlist',function($scope, $http, $timeout){
+    $scope.stop = true;
     $scope.snip_traveller = function(){
-                var found = false,
-                ct = $scope.player.currentTime();
-                angular.forEach($scope.snippets, function(snip){
-                    if (snip.id === 'new')
-                       return; 
-                    if( !found && snip.active){
-                        if (snip.start <= ct && ct <= (1+snip.end)){
-                            found = true;
-                        }
-                        else if (snip.start > ct ){
-                            found = true; 
-                            $scope.player.currentTime(snip.start);
-                        }
-                    }
-                });
-                if (! found && $scope.snippets.length != 1 ){
-                    $scope.player.currentTime(0);
+        //$scope.player.off("timeupdate",$scope.snip_traveller);
+        $timeout(function(){$scope.snip_traveller()}, 2000);
+        if($scope.stop || $scope.player.paused())
+            return
+        var found = false,
+               ct = $scope.player.currentTime();
+        for (var i in $scope.snippets){
+            snip = $scope.snippets[i];
+            if (snip.id === 'new')
+                continue; 
+            if( snip.active){
+                if (snip.start <= ct && ct <= (1+snip.end)){
+                    found = true;
+                    break
                 }
-            };
+                else if (snip.start > ct ){
+                    //console.log(snip.start);
+                    //console.log(ct);
+                    //console.log('#');
+                    found = true; 
+                    $scope.player.currentTime(snip.start );
+                    console.log("setted " + $scope.player.currentTime() + "," +ct)
+                    break;
+                }
+            }
+        }
+        if (! found && $scope.snippets.length != 1 ){
+            console.log('nothing')
+            $scope.player.currentTime(1);
+        }
+    };
     $scope.state = ["Edit", "Delete"];
     $scope.alerts = [];
     $http.get('/book/songs/').success(function(response){
@@ -46,7 +59,7 @@ angular.module('player',["ui.bootstrap"])
         });
         $scope.editing = false;
         $scope.player = videojs('playerbox',{"preload":"auto", "controls":true, "autoplay":false, "width":540, "height":420});
-        $scope.loadSong(1)
+        $scope.loadSong(1);
     }).error(function(error){
         console.log('Errored!!!!\n'+error);
     });
@@ -61,7 +74,9 @@ angular.module('player',["ui.bootstrap"])
         $scope.player.src({src:"/static/"+song.path, type:"video/"+song.type});
         $scope.comment = song.comment;
         $scope.player.ready(function(){
-            $scope.player.on("timeupdate",$scope.snip_traveller);
+            //$scope.player.on("timeupdate",$scope.snip_traveller);
+            $scope.stop = false;
+            $scope.snip_traveller();
         });
     };
     $scope.editSnip = function(snip_id){
@@ -72,11 +87,13 @@ angular.module('player',["ui.bootstrap"])
         $scope.editing = ! $scope.editing;
         if ($scope.editing) {
             $scope.state = ["Undo","Save"];
-            $scope.player.off("timeupdate",$scope.snip_traveller);
+            //$scope.player.off("timeupdate",$scope.snip_traveller);
+            $scope.stop = true;
         }
         else{
             $scope.state = [" Edit", "Delete"];
-            $scope.player.on("timeupdate",$scope.snip_traveller);
+            //$scope.player.on("timeupdate",$scope.snip_traveller);
+            $scope.stop = false;
         }
     };
     $scope.saveSnip = function(snip_id){

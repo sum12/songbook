@@ -11,7 +11,7 @@
     "tests"
   ],
   "dependencies": {
-    "video.js": "~4.12.12",
+    "video.js": "4.12.15",
     "angular-bootstrap": "~0.13.3"
   },
   "devDependencies": {
