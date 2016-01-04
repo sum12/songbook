@@ -38,6 +38,8 @@ angular.module('player',["ui.bootstrap"])
         }
     };
     $scope.state = ["Edit", "Delete"];
+    $scope.currentStart = 0;
+    $scope.currentEnd = 0;
     $scope.alerts = [];
     $http.get('/book/songs/').success(function(response){
         $scope.list = {};
@@ -80,13 +82,22 @@ angular.module('player',["ui.bootstrap"])
         });
     };
     $scope.editSnip = function(snip_id){
+        var currentSnip;
         angular.forEach($scope.snippets, function(snip){
-            snip.editing = snip.id == snip_id ? ! snip.editing : snip.editing;
+            if (snip.id == snip_id) {
+                currentSnip = snip;
+                snip.editing = !snip.editing
+            }
+
         });
-        $scope.player.pause();
+        if ( ! $scope.player.paused() )
+            $scope.player.pause();
         $scope.editing = ! $scope.editing;
         if ($scope.editing) {
             $scope.state = ["Undo","Save"];
+            $scope.currentStart = currentSnip.start;
+            $scope.currentEnd = currentSnip.end;
+            console.log('setting values');
             //$scope.player.off("timeupdate",$scope.snip_traveller);
             $scope.stop = true;
         }
@@ -100,24 +111,32 @@ angular.module('player',["ui.bootstrap"])
         if ($scope.editing){
             $scope.snippets[snip_id].start = parseInt($scope.currentStart);
             $scope.snippets[snip_id].end = parseInt($scope.currentEnd);
-            $http.post("/book/snippets/"+(parseInt(snip_id) || ""),$scope.snippets[snip_id]).
-                success(function(response){
-                    $scope.snippets[response.id] = response;
-                    $scope.snippets[response.id].editing = false;
-                    $scope.alerts.push({
-                        "type":"success",
-                        "msg": "OK"
-                    });
-                }).
-                error(function(err){
-                    console.log(err);
-                })
-            $scope.currentStart = 0 ;
+            snip_id = parseInt(snip_id)
+            if (snip_id)
+                pr = $http.patch("/book/snippets/"+snip_id+"/" ,$scope.snippets[snip_id])
+            else
+                pr = $http.post("/book/snippets/" ,$scope.snippets[snip_id])
+            pr.success(function(response){
+                $scope.snippets[response.id] = response;
+                $scope.snippets[response.id].editing = false;
+                $scope.alerts.push({
+                    "type":"success",
+                    "msg": "OK"
+                });
+            }).
+            error(function(err){
+                $scope.alerts.push({
+                    "type":"danger",
+                    "msg": err,
+                });
+                console.log(err);
+            })
+            $scope.currentStart = 0;
             $scope.currentEnd = 0;
             $scope.editSnip(snip_id);
         }
         else{
-            $http.delete("/book/snippets/"+(parseInt(snip_id))).success(function(){
+            $http.delete("/book/snippets/"+(parseInt(snip_id))+"/").success(function(){
                 delete($scope.snippets[snip_id]);
                 $scope.alerts.push({
                     "type":"success",
@@ -127,8 +146,9 @@ angular.module('player',["ui.bootstrap"])
             error(function(err){
                 $scope.alerts.push({
                     "type":"danger",
-                    "msg": "Nope:"+err.detail
-                })
+                    "msg": "Nope:"
+                });
+                console.log(err)
             })
         }
     };
@@ -138,5 +158,4 @@ angular.module('player',["ui.bootstrap"])
     $scope.getCurrent = function(){
         return $scope.player.currentTime();
     };
-
 })
