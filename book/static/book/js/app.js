@@ -7,7 +7,7 @@ angular.module('player',["ui.bootstrap"])
     $scope.stop = true;
     $scope.snip_traveller = function(){
         //$scope.player.off("timeupdate",$scope.snip_traveller);
-        $timeout(function(){$scope.snip_traveller()}, 2000);
+        var timer = $timeout($scope.snip_traveller, 500);
         if($scope.stop || $scope.player.paused())
             return
         var found = false,
@@ -27,6 +27,8 @@ angular.module('player',["ui.bootstrap"])
                     //console.log('#');
                     found = true; 
                     $scope.player.currentTime(snip.start );
+                    $timeout.cancel(timer);
+                    timer = $timeout($scope.snip_traveller, 2500);
                     console.log("setted " + $scope.player.currentTime() + "," +ct)
                     break;
                 }
@@ -78,7 +80,6 @@ angular.module('player',["ui.bootstrap"])
         $scope.player.ready(function(){
             //$scope.player.on("timeupdate",$scope.snip_traveller);
             $scope.stop = false;
-            $scope.snip_traveller();
         });
     };
     $scope.editSnip = function(snip_id){
@@ -158,4 +159,5 @@ angular.module('player',["ui.bootstrap"])
     $scope.getCurrent = function(){
         return $scope.player.currentTime();
     };
+    $scope.snip_traveller();
 })
