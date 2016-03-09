@@ -74,6 +74,7 @@ angular.module('player',["ui.bootstrap"])
         $scope.snippets = $scope.list[song_id].snippets;
         $scope.editing = false;
         $scope.state = ["Edit", "Delete"];
+        $scope.currentSongId = song_id;
         song=$scope.list[song_id];
         $scope.player.src({src:"/static/"+song.path, type:"video/"+song.type});
         $scope.comment = song.comment;
@@ -153,6 +154,21 @@ angular.module('player',["ui.bootstrap"])
             })
         }
     };
+    $scope.savecomment = function(){
+       var nucomment = $scope.list[$scope.currentSongId].comment;
+       $http.patch('/book/songs/'+$scope.currentSongId + '/', {"comment":nucomment}).success(function(response){
+            $scope.alerts.push({
+                "type":"success",
+                "msg":"Comment Saved, Yay!!!"
+            });
+       }).error(function(data){
+           console.log(data);
+           $scope.alerts.push({
+               "type":"error",
+               "msg" : "Ok we screwed up"
+           })
+       })
+    }
     $scope.closeAlert = function(index) {
         $scope.alerts.splice(index, 1);
     };

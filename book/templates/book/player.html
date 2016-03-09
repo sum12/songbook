@@ -8,9 +8,9 @@
         <div  class="row">
             <video id="playerbox" class="video-js vjs-default-skin" >
             </video> 
-        </div>
-        <label for="songcomment"><h4>Song Comment</h4></label>
-        <textarea id="songcomment" class="form-control" ng-model=comment rows="7"></textarea>
+            </div>
+            <label for="songcomment"><h4>Song Comment</h4></label> <button href ng-click="savecomment()" > Update </button>
+        <textarea id="songcomment" class="form-control" rows="7" ng-model=list[currentSongId].comment></textarea>
     </div>
 
     <div id="song-list-ang" class="col-md-2 list-group">
